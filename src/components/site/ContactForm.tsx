@@ -113,7 +113,7 @@ export function ContactForm() {
       </label>
       <label className="block md:col-span-2">
         <span className="eyebrow text-muted-foreground">Tell me about the project *</span>
-        <textarea name="message" rows={5} className={cn(field, "resize-none", errors.message && "border-destructive")} placeholder="Goals, timeline, links you like…" aria-invalid={!!errors.message} />
+        <textarea name="message" rows={5} className={cn(field, "resize-none", errors["message"] && "border-destructive")} placeholder="Goals, timeline, links you like…" aria-invalid={!!errors["message"]} />
         <Err k="message" />
       </label>
       <div className="flex flex-col gap-4 md:col-span-2 md:flex-row md:items-center md:justify-between">
