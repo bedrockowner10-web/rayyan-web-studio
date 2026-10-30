@@ -39,6 +39,6 @@ export const navLinks = [
   { to: "/work", label: "Work" },
   { to: "/services", label: "Services" },
   { to: "/about", label: "About" },
-  { to: "/about", hash: "process", label: "Process" },
+  { to: "/", hash: "process", label: "Process" },
   { to: "/contact", label: "Contact" },
 ] as const;
