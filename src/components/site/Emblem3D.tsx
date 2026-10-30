@@ -1,19 +1,38 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, Float, Lightformer, RoundedBox, ContactShadows } from "@react-three/drei";
-import { useRef } from "react";
+import { Environment, Float, Lightformer, RoundedBox, ContactShadows, Sparkles } from "@react-three/drei";
+import { useRef, type ReactNode } from "react";
 import * as THREE from "three";
 
 const S = 1 / 20;
 const P = (x: number, y: number) => new THREE.Vector2((x - 45) * S, (30 - y) * S);
-const T = 0.27; // stroke thickness
+const T = 0.34; // stroke thickness
+
+function Glass() {
+  return (
+    <meshPhysicalMaterial
+      color="#5b8cff"
+      transmission={0.92}
+      thickness={0.9}
+      roughness={0.06}
+      ior={1.45}
+      iridescence={1}
+      iridescenceIOR={1.3}
+      clearcoat={1}
+      clearcoatRoughness={0.05}
+      attenuationColor="#2b5bff"
+      attenuationDistance={1.6}
+      envMapIntensity={1.6}
+    />
+  );
+}
 
 function Segment({ a, b }: { a: THREE.Vector2; b: THREE.Vector2 }) {
   const mid = a.clone().add(b).multiplyScalar(0.5);
   const len = a.distanceTo(b) + T * 0.6;
   const ang = Math.atan2(b.y - a.y, b.x - a.x);
   return (
-    <RoundedBox args={[len, T, T * 1.4]} radius={0.06} smoothness={4} position={[mid.x, mid.y, 0]} rotation={[0, 0, ang]}>
-      <meshStandardMaterial color="#d9bf86" metalness={1} roughness={0.22} envMapIntensity={1.4} />
+    <RoundedBox args={[len, T, T * 1.6]} radius={0.12} smoothness={4} position={[mid.x, mid.y, 0]} rotation={[0, 0, ang]}>
+      <Glass />
     </RoundedBox>
   );
 }
@@ -23,57 +42,96 @@ function Bowl({ cx, cy, r }: { cx: number; cy: number; r: number }) {
   return (
     <mesh position={[c.x, c.y, 0]} rotation={[0, 0, -Math.PI / 2]}>
       <torusGeometry args={[r * S, T / 2, 32, 64, Math.PI]} />
-      <meshStandardMaterial color="#d9bf86" metalness={1} roughness={0.22} envMapIntensity={1.4} />
+      <Glass />
     </mesh>
   );
 }
 
-function Mark({ reduce }: { reduce: boolean }) {
+function Spin({ children, speed, axis = "y" }: { children: ReactNode; speed: number; axis?: "x" | "y" | "z" }) {
+  const g = useRef<THREE.Group>(null);
+  useFrame((_, dt) => {
+    if (g.current) g.current.rotation[axis] += Math.min(dt, 0.05) * speed;
+  });
+  return <group ref={g}>{children}</group>;
+}
+
+function Scene({ reduce }: { reduce: boolean }) {
   const g = useRef<THREE.Group>(null);
   useFrame((state, dt) => {
     if (!g.current) return;
     const t = state.clock.elapsedTime;
-    const targetY = (reduce ? 0 : Math.sin(t * 0.35) * 0.35) + state.pointer.x * 0.35;
-    const targetX = -state.pointer.y * 0.25;
-    g.current.rotation.y = THREE.MathUtils.damp(g.current.rotation.y, targetY, 3, dt);
-    g.current.rotation.x = THREE.MathUtils.damp(g.current.rotation.x, targetX, 3, dt);
+    const ty = (reduce ? 0 : Math.sin(t * 0.4) * 0.3) + state.pointer.x * 0.45;
+    const tx = -state.pointer.y * 0.3;
+    g.current.rotation.y = THREE.MathUtils.damp(g.current.rotation.y, ty, 3, dt);
+    g.current.rotation.x = THREE.MathUtils.damp(g.current.rotation.x, tx, 3, dt);
   });
   const W = [P(4, 8), P(18, 52), P(32, 18), P(46, 52), P(58, 8)];
+  const sp = reduce ? 0 : 1;
   return (
-    <group ref={g} scale={1.05}>
-      {W.slice(0, -1).map((p, i) => (
-        <Segment key={i} a={p} b={W[i + 1]} />
-      ))}
-      <Segment a={P(58, 6)} b={P(58, 54)} />
-      <Segment a={P(58, 8)} b={P(74, 8)} />
-      <Segment a={P(58, 30)} b={P(77, 30)} />
-      <Segment a={P(58, 52)} b={P(77, 52)} />
-      <Bowl cx={74} cy={19} r={11} />
-      <Bowl cx={77} cy={41} r={11} />
-      {/* halo ring */}
-      <mesh position={[0, 0, -0.5]}>
-        <torusGeometry args={[2.95, 0.025, 16, 160]} />
-        <meshStandardMaterial color="#cdb27a" metalness={1} roughness={0.35} />
-      </mesh>
+    <group ref={g}>
+      <Float speed={1.4 * sp} rotationIntensity={0.2 * sp} floatIntensity={0.5 * sp}>
+        <group scale={1.05}>
+          {W.slice(0, -1).map((p, i) => <Segment key={i} a={p} b={W[i + 1]} />)}
+          <Segment a={P(58, 6)} b={P(58, 54)} />
+          <Segment a={P(58, 8)} b={P(74, 8)} />
+          <Segment a={P(58, 30)} b={P(77, 30)} />
+          <Segment a={P(58, 52)} b={P(77, 52)} />
+          <Bowl cx={74} cy={19} r={11} />
+          <Bowl cx={77} cy={41} r={11} />
+        </group>
+      </Float>
+      {/* orbit rings */}
+      <group rotation={[1.2, 0.2, 0]}>
+        <Spin speed={0.25 * sp} axis="z">
+          <mesh><torusGeometry args={[3.1, 0.035, 16, 200]} /><meshStandardMaterial color="#2f6bff" metalness={0.6} roughness={0.2} /></mesh>
+          <mesh position={[3.1, 0, 0]}><sphereGeometry args={[0.16, 32, 32]} /><meshStandardMaterial color="#c6ff3d" emissive="#9be22a" emissiveIntensity={0.6} /></mesh>
+        </Spin>
+      </group>
+      <group rotation={[-0.5, 0.9, 0.3]}>
+        <Spin speed={-0.18 * sp} axis="z">
+          <mesh><torusGeometry args={[3.6, 0.02, 16, 200]} /><meshStandardMaterial color="#8a5cff" metalness={0.5} roughness={0.25} /></mesh>
+          <mesh position={[0, 3.6, 0]}><sphereGeometry args={[0.11, 32, 32]} /><meshStandardMaterial color="#38d8ff" emissive="#38d8ff" emissiveIntensity={0.5} /></mesh>
+        </Spin>
+      </group>
+      {/* floating geometry */}
+      <Float speed={2 * sp} floatIntensity={1.2 * sp} rotationIntensity={1.5 * sp}>
+        <mesh position={[-2.9, 1.7, -0.6]}><icosahedronGeometry args={[0.42, 0]} /><meshPhysicalMaterial color="#8a5cff" roughness={0.15} clearcoat={1} flatShading /></mesh>
+      </Float>
+      <Float speed={1.6 * sp} floatIntensity={1 * sp} rotationIntensity={1.2 * sp}>
+        <mesh position={[2.8, -1.8, 0.4]}><torusKnotGeometry args={[0.32, 0.11, 120, 16]} /><meshPhysicalMaterial color="#38d8ff" roughness={0.1} clearcoat={1} metalness={0.2} /></mesh>
+      </Float>
+      <Float speed={2.4 * sp} floatIntensity={1.4 * sp}>
+        <mesh position={[2.5, 2.1, -1]}><sphereGeometry args={[0.28, 48, 48]} /><meshPhysicalMaterial color="#c6ff3d" roughness={0.2} clearcoat={1} /></mesh>
+      </Float>
+      <Float speed={1.8 * sp} floatIntensity={1 * sp} rotationIntensity={2 * sp}>
+        <mesh position={[-2.6, -1.9, 0.6]}><octahedronGeometry args={[0.36, 0]} /><meshPhysicalMaterial color="#2f6bff" roughness={0.1} clearcoat={1} flatShading /></mesh>
+      </Float>
+      <Sparkles count={reduce ? 0 : 60} scale={[8, 6, 4]} size={2.5} speed={0.3} color="#5b8cff" opacity={0.7} />
     </group>
   );
 }
 
 export default function Emblem3D({ reduce = false }: { reduce?: boolean }) {
   return (
-    <Canvas dpr={[1, 1.75]} camera={{ position: [0, 0, 7.2], fov: 38 }} gl={{ antialias: true, alpha: true }}>
-      <ambientLight intensity={0.2} />
-      <spotLight position={[4, 6, 6]} angle={0.4} penumbra={1} intensity={60} color="#fff3dc" />
-      <pointLight position={[-5, -2, 3]} intensity={18} color="#c9a46a" />
-      <Float speed={reduce ? 0 : 1.4} rotationIntensity={reduce ? 0 : 0.25} floatIntensity={reduce ? 0 : 0.6}>
-        <Mark reduce={reduce} />
-      </Float>
-      <ContactShadows position={[0, -2.6, 0]} opacity={0.5} scale={9} blur={2.6} far={4} color="#000" />
+    <Canvas
+      dpr={[1, 1.6]}
+      camera={{ position: [0, 0, 8.4], fov: 40 }}
+      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+      onCreated={({ gl }) => gl.domElement.parentElement?.parentElement?.setAttribute("data-scene-ready", "")}
+      style={{ touchAction: "pan-y" }}
+    >
+      <ambientLight intensity={0.7} />
+      <directionalLight position={[4, 6, 5]} intensity={2.2} color="#ffffff" />
+      <pointLight position={[-5, -2, 3]} intensity={30} color="#38d8ff" />
+      <pointLight position={[5, -3, -2]} intensity={25} color="#8a5cff" />
+      <Scene reduce={reduce} />
+      <ContactShadows position={[0, -3.1, 0]} opacity={0.35} scale={10} blur={3} far={4} color="#2a4bd6" />
       <Environment resolution={256}>
-        <Lightformer intensity={3} position={[0, 4, -6]} scale={[12, 2, 1]} color="#fff6e6" />
-        <Lightformer intensity={2} position={[-6, 0, 2]} rotation-y={Math.PI / 2} scale={[8, 3, 1]} color="#e9d2a5" />
-        <Lightformer intensity={1.5} position={[6, -1, 2]} rotation-y={-Math.PI / 2} scale={[8, 2, 1]} color="#ffffff" />
-        <Lightformer form="ring" intensity={4} position={[2, 3, 5]} scale={2} color="#fff" />
+        <Lightformer intensity={3} position={[0, 5, -6]} scale={[12, 3, 1]} color="#ffffff" />
+        <Lightformer intensity={3} position={[-6, 0, 2]} rotation-y={Math.PI / 2} scale={[8, 3, 1]} color="#5fd4ff" />
+        <Lightformer intensity={2.5} position={[6, -1, 2]} rotation-y={-Math.PI / 2} scale={[8, 3, 1]} color="#a07bff" />
+        <Lightformer form="ring" intensity={4} position={[2, 3, 5]} scale={2} color="#ffffff" />
+        <Lightformer intensity={1.5} position={[0, -5, 0]} rotation-x={-Math.PI / 2} scale={[10, 10, 1]} color="#c6ff3d" />
       </Environment>
     </Canvas>
   );
