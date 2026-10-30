@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import type { Demo } from "@/data/projects";
 import { Img } from "./Img";
+import { Tilt } from "./Tilt";
 
 /** Five rotating compositions so no two neighbouring thumbnails look alike. */
 function Preview({ d, variant }: { d: Demo; variant: number }) {
@@ -61,24 +62,33 @@ function Preview({ d, variant }: { d: Demo; variant: number }) {
 
 export function ProjectCard({ d, index, tall }: { d: Demo; index: number; tall?: boolean }) {
   return (
-    <Link
-      to="/demos/$slug"
-      params={{ slug: d.slug }}
-      className="group block focus-visible:outline-offset-8"
-      aria-label={`Open ${d.name} concept demo — ${d.industry}`}
-    >
-      <div className={`relative overflow-hidden border ${tall ? "aspect-[4/5]" : "aspect-[4/3]"}`}>
-        <Preview d={d} variant={index} />
-        <span className="absolute right-3 top-3 rounded-full glass px-2.5 py-1 eyebrow text-[0.6rem] text-foreground">Concept</span>
-      </div>
-      <div className="mt-4 flex items-start justify-between gap-4">
-        <div>
-          <p className="eyebrow text-muted-foreground">{d.num} · {d.industry}</p>
-          <h3 className="mt-2 font-display text-2xl">{d.name}</h3>
-          <p className="mt-1 max-w-md text-sm leading-relaxed text-muted-foreground">{d.blurb}</p>
+    <Tilt>
+      <Link
+        to="/demos/$slug"
+        params={{ slug: d.slug }}
+        className="group block rounded-[1.6rem] border bg-card p-2.5 shadow-elegant transition-shadow duration-500 focus-visible:outline-offset-8"
+        style={{ boxShadow: `0 30px 60px -30px color-mix(in oklab, ${d.theme.accent} 55%, transparent)` }}
+        aria-label={`Open ${d.name} concept demo — ${d.industry}`}
+      >
+        <div className="overflow-hidden rounded-[1.2rem] border">
+          <div className="flex items-center gap-1.5 border-b bg-secondary px-3 py-2">
+            <span className="h-2 w-2 rounded-full bg-destructive/70" /><span className="h-2 w-2 rounded-full bg-lime" /><span className="h-2 w-2 rounded-full bg-cyan" />
+            <span className="ml-2 truncate rounded-full bg-card px-3 py-0.5 font-mono text-[0.6rem] text-muted-foreground">{d.slug}.concept</span>
+          </div>
+          <div className={`relative ${tall ? "aspect-[4/5]" : "aspect-[4/3]"}`} style={{ transform: "translateZ(30px)" }}>
+            <Preview d={d} variant={index} />
+            <span className="absolute right-3 top-3 rounded-full glass px-2.5 py-1 eyebrow text-[0.6rem] text-foreground">Concept</span>
+          </div>
         </div>
-        <ArrowUpRight className="mt-1 shrink-0 text-primary transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" size={20} />
-      </div>
-    </Link>
+        <div className="flex items-start justify-between gap-4 px-3 pb-3 pt-4">
+          <div>
+            <p className="eyebrow flex items-center gap-2 text-muted-foreground"><span className="h-2 w-2 rounded-full" style={{ background: d.theme.accent }} />{d.num} · {d.industry}</p>
+            <h3 className="mt-2 font-display text-2xl">{d.name}</h3>
+            <p className="mt-1 max-w-md text-sm leading-relaxed text-muted-foreground">{d.blurb}</p>
+          </div>
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-secondary text-primary transition-all group-hover:bg-brand-gradient group-hover:text-primary-foreground group-hover:rotate-45"><ArrowUpRight size={18} /></span>
+        </div>
+      </Link>
+    </Tilt>
   );
 }

@@ -7,10 +7,10 @@ export function Monogram({ className = "h-7 w-auto" }: { className?: string }) {
     <svg viewBox="0 0 96 60" className={className} aria-hidden="true" fill="none">
       <defs>
         <linearGradient id={`g${id}`} x1="0" y1="0" x2="96" y2="60" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="oklch(0.66 0.07 68)" />
-          <stop offset="0.45" stopColor="oklch(0.92 0.06 90)" />
-          <stop offset="0.7" stopColor="oklch(0.72 0.08 72)" />
-          <stop offset="1" stopColor="oklch(0.88 0.05 88)" />
+          <stop offset="0" stopColor="oklch(0.52 0.24 264)" />
+          <stop offset="0.45" stopColor="oklch(0.68 0.17 240)" />
+          <stop offset="0.7" stopColor="oklch(0.82 0.14 205)" />
+          <stop offset="1" stopColor="oklch(0.6 0.24 295)" />
         </linearGradient>
       </defs>
       <g stroke={`url(#g${id})`} strokeWidth="5" strokeLinecap="square" strokeLinejoin="miter">
@@ -25,8 +25,8 @@ export function Wordmark() {
   return (
     <span className="flex items-center gap-3">
       <Monogram />
-      <span className="font-display text-xl leading-none tracking-tight">
-        Webs <span className="italic text-muted-foreground">by</span> Rayyan
+      <span className="font-display text-xl font-bold leading-none tracking-tight">
+        Webs <span className="font-normal text-muted-foreground">by</span> Rayyan
       </span>
     </span>
   );
