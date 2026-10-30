@@ -17,7 +17,7 @@ export const Route = createFileRoute("/services")({
   }),
   component: () => (
     <Shell>
-      <PageHeader eyebrow="Services" title={<>Everything a great website <span className="italic">needs.</span></>} intro="Design, build and launch — handled by one person, end to end. Pick a single service or bring it all together." />
+      <PageHeader eyebrow="Services" title={<>Everything a great website <span className="text-brand-gradient">needs.</span></>} intro="Design, build and launch — handled by one person, end to end. Pick a single service or bring it all together." />
       <section className="mx-auto max-w-[1400px] px-6 pb-24 md:px-10"><ServicesList detailed /></section>
       <section className="mx-auto max-w-[1400px] px-6 py-24 md:px-10"><SectionHead eyebrow="Workflow" title="How projects run." /><ProcessSteps /></section>
       <section className="mx-auto grid max-w-[1400px] gap-12 px-6 py-24 md:grid-cols-[1fr_1.5fr] md:px-10">

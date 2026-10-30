@@ -16,7 +16,7 @@ export const Route = createFileRoute("/work")({
   }),
   component: () => (
     <Shell>
-      <PageHeader eyebrow="Work" title={<>20 concepts. <span className="italic text-brass-gradient">20 different worlds.</span></>} intro="Independent concept demos, each designed as if for a separate client brief. Open any one to explore a live site." />
+      <PageHeader eyebrow="Work" title={<>20 concepts. <span className="text-brand-gradient">20 different worlds.</span></>} intro="Independent concept demos, each designed as if for a separate client brief. Open any one to explore a live site." />
       <section className="mx-auto max-w-[1400px] px-6 pb-24 md:px-10"><PortfolioGrid /></section>
       <CTABand />
     </Shell>

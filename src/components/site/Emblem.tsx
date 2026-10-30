@@ -17,9 +17,9 @@ function hasWebGL() {
 export function EmblemFallback() {
   return (
     <div className="relative grid h-full w-full place-items-center">
-      <div className="absolute aspect-square w-[78%] rounded-full border border-primary/25" />
+      <div className="absolute aspect-square w-[78%] rounded-full border-2 border-dashed border-primary/25" />
       <div className="absolute aspect-square w-[60%] rounded-full bg-glow blur-2xl" />
-      <div className="relative w-[58%] animate-float-slow drop-shadow-[0_30px_40px_oklch(0_0_0/0.6)]">
+      <div className="relative w-[58%] animate-float-slow drop-shadow-[0_30px_40px_oklch(0.5_0.22_264/0.35)]">
         <Monogram className="h-auto w-full" />
       </div>
     </div>

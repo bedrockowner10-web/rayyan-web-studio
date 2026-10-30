@@ -32,7 +32,7 @@ export function buildMailto(d: Inquiry) {
   };
 }
 
-const field = "w-full border-b bg-transparent py-3 text-base placeholder:text-muted-foreground/70 focus:border-primary focus:outline-none";
+const field = "w-full rounded-2xl border bg-card px-4 py-3 text-base shadow-sm placeholder:text-muted-foreground/70 focus:border-primary focus:ring-4 focus:ring-primary/15 focus:outline-none";
 
 export function ContactForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -64,7 +64,7 @@ export function ContactForm() {
           Your email app should have opened with your inquiry ready to send. Your message is not sent until you press send there.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <a href={done.href} className="rounded-full bg-brass-gradient px-5 py-2.5 text-sm font-medium text-primary-foreground">Open email again</a>
+          <a href={done.href} className="rounded-full bg-brand-gradient px-5 py-2.5 text-sm font-medium text-primary-foreground">Open email again</a>
           <button
             onClick={async () => { await navigator.clipboard.writeText(done.body); setCopied(true); }}
             className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm"
@@ -113,12 +113,12 @@ export function ContactForm() {
       </label>
       <label className="block md:col-span-2">
         <span className="eyebrow text-muted-foreground">Tell me about the project *</span>
-        <textarea name="message" rows={5} className={cn(field, "resize-none", errors.message && "border-destructive")} placeholder="Goals, timeline, links you like…" aria-invalid={!!errors.message} />
+        <textarea name="message" rows={5} className={cn(field, "resize-none", errors["message"] && "border-destructive")} placeholder="Goals, timeline, links you like…" aria-invalid={!!errors["message"]} />
         <Err k="message" />
       </label>
       <div className="flex flex-col gap-4 md:col-span-2 md:flex-row md:items-center md:justify-between">
         <p className="max-w-sm text-xs text-muted-foreground">Submitting opens your email app with the inquiry prefilled, addressed to {siteConfig.email}.</p>
-        <button type="submit" className="rounded-full bg-brass-gradient px-8 py-4 font-medium text-primary-foreground shadow-brass transition-transform hover:scale-[1.02]">
+        <button type="submit" className="rounded-full bg-brand-gradient px-8 py-4 font-medium text-primary-foreground shadow-glow transition-transform hover:scale-[1.02]">
           Send inquiry
         </button>
       </div>

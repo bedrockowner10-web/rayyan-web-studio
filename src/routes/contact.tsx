@@ -17,7 +17,7 @@ export const Route = createFileRoute("/contact")({
   }),
   component: () => (
     <Shell>
-      <PageHeader eyebrow="Contact" title={<>Have a project in mind? <span className="italic text-brass-gradient">Let's make it happen.</span></>} />
+      <PageHeader eyebrow="Contact" title={<>Have a project in mind? <span className="text-brand-gradient">Let's make it happen.</span></>} />
       <section className="mx-auto grid max-w-[1400px] gap-16 px-6 pb-32 md:px-10 lg:grid-cols-[1fr_1.6fr]">
         <aside className="space-y-10">
           <div><p className="eyebrow text-muted-foreground">Email</p><a href={`mailto:${siteConfig.email}`} className="link-underline mt-3 inline-block font-display text-3xl">{siteConfig.email}</a></div>
