@@ -90,7 +90,7 @@ function Home() {
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4" style={{ perspective: 1200 }}>
           {demos.slice(0, 8).filter((_, i) => i % 2 === 0).map((d, i) => (
             <Reveal key={d.slug} delay={i * 0.08}>
-              <Link to="/demos/$slug" params={{ slug: d.slug }} className="group block overflow-hidden rounded-3xl border bg-card p-2 shadow-elegant transition-transform duration-500 hover:-translate-y-2 hover:rotate-x-6" style={{ transform: `rotate(${[-3, 2, -2, 3][i]}deg)` }}>
+              <Link to="/demos/$slug" params={{ slug: d.slug }} className="group block overflow-hidden rounded-3xl border bg-card p-2 shadow-elegant transition-transform duration-500 hover:-translate-y-2" style={{ transform: `rotate(${[-3, 2, -2, 3][i]}deg)` }}>
                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl" style={{ background: d.theme.bg, color: d.theme.fg }}>
                   <Img src={d.images[0]} alt="" className="absolute inset-0 h-full w-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-110" />
                   <div className="absolute inset-x-3 bottom-3 rounded-xl px-3 py-2 text-sm font-semibold" style={{ background: d.theme.accent, color: d.theme.accentFg }}>{d.name}</div>
@@ -104,14 +104,14 @@ function Home() {
       <Marquee />
 
       <section className={`${wrap} py-32`}>
-        <SectionHead eyebrow="Featured concepts" title={<>Work that does the <span className="italic">talking.</span></>} aside={<Link to="/work" className="link-underline text-primary">All 20 concepts →</Link>} />
+        <SectionHead eyebrow="Featured concepts" title={<>Work that does the <span className="text-brand-gradient">talking.</span></>} aside={<Link to="/work" className="link-underline text-primary">All 20 concepts →</Link>} />
         <div className="grid gap-x-10 gap-y-16 md:grid-cols-2">
           {featured.map((d, i) => <Reveal key={d.slug} delay={i * 0.08} className={i % 2 ? "md:mt-24" : ""}><ProjectCard d={d} index={i * 2 + 1} tall /></Reveal>)}
         </div>
       </section>
 
       <section className={`${wrap} pb-32`}>
-        <SectionHead eyebrow="The concept library" title={<>20 concepts. <span className="italic text-brand-gradient">20 different worlds.</span></>} aside={<p className="max-w-xs text-sm text-muted-foreground">Each one is a live, independently navigable demo site — built to show range, not reuse a template.</p>} />
+        <SectionHead eyebrow="The concept library" title={<>20 concepts. <span className="text-brand-gradient">20 different worlds.</span></>} aside={<p className="max-w-xs text-sm text-muted-foreground">Each one is a live, independently navigable demo site — built to show range, not reuse a template.</p>} />
         <PortfolioGrid />
       </section>
 
