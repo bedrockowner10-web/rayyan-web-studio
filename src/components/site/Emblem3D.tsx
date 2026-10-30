@@ -71,7 +71,7 @@ function Scene({ reduce }: { reduce: boolean }) {
     <group ref={g}>
       <Float speed={1.4 * sp} rotationIntensity={0.2 * sp} floatIntensity={0.5 * sp}>
         <group scale={1.05}>
-          {W.slice(0, -1).map((p, i) => <Segment key={i} a={p} b={W[i + 1]} />)}
+          {W.slice(0, -1).map((p, i) => <Segment key={i} a={p} b={W[i + 1]!} />)}
           <Segment a={P(58, 6)} b={P(58, 54)} />
           <Segment a={P(58, 8)} b={P(74, 8)} />
           <Segment a={P(58, 30)} b={P(77, 30)} />

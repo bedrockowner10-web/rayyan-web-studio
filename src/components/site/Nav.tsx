@@ -32,7 +32,7 @@ export function Nav() {
             <li key={l.label}>
               <Link
                 to={l.to}
-                hash={"hash" in l ? l.hash : undefined}
+                {...("hash" in l && l.hash ? { hash: l.hash } : {})}
                 className="rounded-full px-3 py-2 font-medium text-foreground/75 transition-colors hover:bg-secondary hover:text-foreground"
                 activeProps={{ className: "bg-secondary text-primary" }}
                 activeOptions={{ exact: true, includeHash: true }}
@@ -75,7 +75,7 @@ export function Nav() {
                 <motion.li key={l.label} initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.05 * i }}>
                   <Link
                     to={l.to}
-                    hash={"hash" in l ? l.hash : undefined}
+                    {...("hash" in l && l.hash ? { hash: l.hash } : {})}
                     onClick={() => setOpen(false)}
                     className="block border-b py-4 font-display text-4xl"
                   >

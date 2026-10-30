@@ -21,7 +21,7 @@ export function Footer() {
           <ul className="mt-5 space-y-3 text-sm">
             {navLinks.map((l) => (
               <li key={l.label}>
-                <Link to={l.to} hash={"hash" in l ? l.hash : undefined} className="link-underline">
+                <Link to={l.to} {...("hash" in l && l.hash ? { hash: l.hash } : {})} className="link-underline">
                   {l.label}
                 </Link>
               </li>
