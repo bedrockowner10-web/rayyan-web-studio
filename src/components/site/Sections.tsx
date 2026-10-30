@@ -11,8 +11,8 @@ export function Marquee() {
     <div className="relative overflow-hidden border-y py-6" aria-label="Capabilities">
       <div className="marquee flex w-max gap-12 whitespace-nowrap">
         {row.map((t, i) => (
-          <span key={i} className="flex items-center gap-12 font-display text-4xl italic text-foreground/85 md:text-5xl" aria-hidden={i >= items.length}>
-            {t} <span className="text-primary not-italic">✦</span>
+          <span key={i} className="flex items-center gap-12 font-display text-4xl font-semibold text-foreground/85 md:text-5xl" aria-hidden={i >= items.length}>
+            {t} <span className="text-brand-gradient">✦</span>
           </span>
         ))}
       </div>
@@ -68,11 +68,11 @@ export function ServicesList({ detailed = false }: { detailed?: boolean }) {
 
 export function ProcessSteps() {
   return (
-    <ol className="grid gap-px overflow-hidden border bg-border md:grid-cols-5">
+    <ol className="grid gap-4 md:grid-cols-5">
       {process.map((p, i) => (
-        <li key={p.n} className="bg-background">
-          <Reveal delay={i * 0.08} className="flex h-full flex-col p-7 transition-colors hover:bg-card">
-            <span className="font-mono text-xs text-primary">{p.n}</span>
+        <li key={p.n} className="rounded-3xl border bg-card shadow-elegant transition-transform duration-500 hover:-translate-y-2">
+          <Reveal delay={i * 0.08} className="flex h-full flex-col p-7 transition-colors ">
+            <span className="grid h-10 w-10 place-items-center rounded-2xl bg-brand-gradient font-mono text-xs text-primary-foreground">{p.n}</span>
             <h3 className="mt-14 font-display text-3xl">{p.t}</h3>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{p.d}</p>
           </Reveal>
@@ -98,23 +98,26 @@ export function WhatsAppButton() {
 
 export function CTABand() {
   return (
-    <section className="relative overflow-hidden px-6 py-32 md:px-10">
-      <div className="pointer-events-none absolute inset-0 bg-glow" />
-      <div className="relative mx-auto max-w-[1400px] text-center">
+    <section className="px-4 py-24 md:px-8">
+      <div className="relative mx-auto max-w-[1400px] overflow-hidden rounded-[2.5rem] bg-brand-gradient px-6 py-24 text-center text-primary-foreground shadow-glow">
+      <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-lime/40 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 -left-10 h-80 w-80 rounded-full bg-violet/50 blur-3xl" />
+      <div className="relative">
         <Reveal>
-          <p className="eyebrow text-primary">{siteConfig.availability}</p>
-          <h2 className="mx-auto mt-6 max-w-5xl font-display text-6xl leading-[0.92] tracking-tight md:text-[8rem]">
-            Have a project in mind? <span className="text-brand-gradient italic">Let's make it happen.</span>
+          <p className="eyebrow">{siteConfig.availability}</p>
+          <h2 className="mx-auto mt-6 max-w-5xl font-display text-6xl leading-[0.92] tracking-tight md:text-[7rem]">
+            Have a project in mind? <span className="text-lime">Let's make it happen.</span>
           </h2>
           <div className="mt-12 flex flex-wrap justify-center gap-4">
             <Magnetic>
-              <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-brand-gradient px-8 py-4 font-medium text-primary-foreground shadow-glow">
+              <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-card px-8 py-4 font-semibold text-primary shadow-elegant">
                 Start a project <ArrowRight size={18} />
               </Link>
             </Magnetic>
             <WhatsAppButton />
           </div>
         </Reveal>
+      </div>
       </div>
     </section>
   );
