@@ -32,7 +32,7 @@ export function buildMailto(d: Inquiry) {
   };
 }
 
-const field = "w-full border-b bg-transparent py-3 text-base placeholder:text-muted-foreground/70 focus:border-primary focus:outline-none";
+const field = "w-full rounded-2xl border bg-card px-4 py-3 text-base shadow-sm placeholder:text-muted-foreground/70 focus:border-primary focus:ring-4 focus:ring-primary/15 focus:outline-none";
 
 export function ContactForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
