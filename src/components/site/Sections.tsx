@@ -85,12 +85,12 @@ export function ProcessSteps() {
 export function WhatsAppButton() {
   if (isPlaceholderWhatsApp())
     return (
-      <Link to="/contact" className="inline-flex items-center gap-2 rounded-full border px-6 py-3.5 text-sm hover:border-primary">
+      <Link to="/contact" className="inline-flex items-center gap-2 rounded-full border border-current px-6 py-3.5 text-sm font-medium backdrop-blur hover:bg-card/15">
         <MessageCircle size={16} /> WhatsApp coming soon — use the form
       </Link>
     );
   return (
-    <a href={whatsappUrl()} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border px-6 py-3.5 text-sm hover:border-primary">
+    <a href={whatsappUrl()} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-current px-6 py-3.5 text-sm font-medium backdrop-blur hover:bg-card/15">
       <MessageCircle size={16} /> Message on WhatsApp
     </a>
   );

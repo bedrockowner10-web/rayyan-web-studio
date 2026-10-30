@@ -11,7 +11,7 @@ export function Tilt({ children, className, max = 8 }: { children: ReactNode; cl
   return (
     <div className={className} style={{ perspective: 1100 }}>
       <motion.div
-        style={reduce ? undefined : { rotateX: rx, rotateY: ry, transformStyle: "preserve-3d" }}
+        style={reduce ? {} : { rotateX: rx, rotateY: ry, transformStyle: "preserve-3d" }}
         onPointerMove={(e) => {
           if (reduce || e.pointerType !== "mouse") return;
           const r = e.currentTarget.getBoundingClientRect();
