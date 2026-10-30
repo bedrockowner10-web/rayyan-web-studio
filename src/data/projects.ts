@@ -64,7 +64,7 @@ export const demos: Demo[] = [
     fonts: { display: "Italiana", body: "Karla", google: "Italiana&family=Karla:wght@300;400;600", upper: true },
     radius: "999px", nav: ["Shop", "Rituals", "Ingredients", "Journal"],
     hero: { eyebrow: "Skin, simplified", title: "Fewer steps. Softer skin.", sub: "Three essentials, formulated to work together and nothing more.", cta: "Shop the ritual", cta2: "Our ingredients" },
-    images: [u("photo-1556228578-8c89e6adf883"), u("photo-1570194065650-d99fb4bedf0a"), u("photo-1608248543803-ba4f8c70ae0b"), u("photo-1598440947619-2c35fc9aa908")],
+    images: [u("photo-1556228578-8c89e6adf883"), u("photo-1620916566398-39f1143ab7be"), u("photo-1608248543803-ba4f8c70ae0b"), u("photo-1598440947619-2c35fc9aa908")],
     intro: { title: "A ritual, not a routine.", body: "Solenne is built around a morning and evening ritual that takes under two minutes. Fragrance-free, gentle, and refillable." },
     features: { title: "Why Solenne", items: [{ t: "Refillable glass", d: "Every bottle is designed to be refilled, not replaced." }, { t: "Short ingredient lists", d: "Only what each formula needs to do its job." }, { t: "Fragrance-free", d: "Formulated with sensitive skin in mind." }] },
     showcase: { title: "The essentials", filters: ["All", "Cleanse", "Treat", "Hydrate"], items: [{ name: "Milk Cleanser", meta: "120 ml", detail: "A soft, low-foam cleanser.", tag: "Cleanse" }, { name: "Dew Serum", meta: "30 ml", detail: "A lightweight hydrating serum.", tag: "Treat" }, { name: "Cloud Cream", meta: "50 ml", detail: "A rich, quick-absorbing cream.", tag: "Hydrate" }, { name: "Night Oil", meta: "30 ml", detail: "A botanical oil for evenings.", tag: "Treat" }] },
