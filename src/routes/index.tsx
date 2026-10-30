@@ -42,13 +42,13 @@ function Home() {
               initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, ease: [0.2, 0.7, 0.2, 1] }}
               className="mt-8 font-display text-[3.6rem] leading-[0.9] tracking-tight sm:text-7xl xl:text-[7.5rem]"
             >
-              Digital experiences, <span className="italic text-brass-gradient">made to move</span> businesses.
+              Digital experiences, <span className="italic text-brand-gradient">made to move</span> businesses.
             </motion.h1>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground">
               Webs by Rayyan is an independent studio designing and building custom websites for brands that would rather stand out than blend in.
             </motion.p>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="mt-10 flex flex-wrap gap-4">
-              <Magnetic><Link to="/work" className="inline-flex items-center gap-2 rounded-full bg-brass-gradient px-7 py-4 font-medium text-primary-foreground shadow-brass">Explore the work <ArrowRight size={18} /></Link></Magnetic>
+              <Magnetic><Link to="/work" className="inline-flex items-center gap-2 rounded-full bg-brand-gradient px-7 py-4 font-medium text-primary-foreground shadow-glow">Explore the work <ArrowRight size={18} /></Link></Magnetic>
               <Link to="/contact" className="inline-flex items-center rounded-full border px-7 py-4 hover:border-primary">Start a project</Link>
             </motion.div>
           </div>
@@ -66,7 +66,7 @@ function Home() {
       </section>
 
       <section className={`${wrap} pb-32`}>
-        <SectionHead eyebrow="The concept library" title={<>20 concepts. <span className="italic text-brass-gradient">20 different worlds.</span></>} aside={<p className="max-w-xs text-sm text-muted-foreground">Each one is a live, independently navigable demo site — built to show range, not reuse a template.</p>} />
+        <SectionHead eyebrow="The concept library" title={<>20 concepts. <span className="italic text-brand-gradient">20 different worlds.</span></>} aside={<p className="max-w-xs text-sm text-muted-foreground">Each one is a live, independently navigable demo site — built to show range, not reuse a template.</p>} />
         <PortfolioGrid />
       </section>
 

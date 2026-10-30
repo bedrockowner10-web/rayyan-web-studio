@@ -104,11 +104,11 @@ export function CTABand() {
         <Reveal>
           <p className="eyebrow text-primary">{siteConfig.availability}</p>
           <h2 className="mx-auto mt-6 max-w-5xl font-display text-6xl leading-[0.92] tracking-tight md:text-[8rem]">
-            Have a project in mind? <span className="text-brass-gradient italic">Let's make it happen.</span>
+            Have a project in mind? <span className="text-brand-gradient italic">Let's make it happen.</span>
           </h2>
           <div className="mt-12 flex flex-wrap justify-center gap-4">
             <Magnetic>
-              <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-brass-gradient px-8 py-4 font-medium text-primary-foreground shadow-brass">
+              <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-brand-gradient px-8 py-4 font-medium text-primary-foreground shadow-glow">
                 Start a project <ArrowRight size={18} />
               </Link>
             </Magnetic>

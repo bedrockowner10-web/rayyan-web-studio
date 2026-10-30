@@ -45,7 +45,7 @@ export function Nav() {
           <Magnetic>
             <Link
               to="/contact"
-              className="hidden rounded-full bg-brass-gradient px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-brass transition-transform hover:scale-[1.03] sm:inline-block"
+              className="hidden rounded-full bg-brand-gradient px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-glow transition-transform hover:scale-[1.03] sm:inline-block"
             >
               Start a project
             </Link>
@@ -85,7 +85,7 @@ export function Nav() {
             <Link
               to="/contact"
               onClick={() => setOpen(false)}
-              className="mt-10 inline-block rounded-full bg-brass-gradient px-6 py-3 font-medium text-primary-foreground"
+              className="mt-10 inline-block rounded-full bg-brand-gradient px-6 py-3 font-medium text-primary-foreground"
             >
               Start a project
             </Link>

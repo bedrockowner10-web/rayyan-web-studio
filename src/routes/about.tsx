@@ -23,7 +23,7 @@ export const Route = createFileRoute("/about")({
   }),
   component: () => (
     <Shell>
-      <PageHeader eyebrow="About" title={<>An independent studio with <span className="italic text-brass-gradient">one standard.</span></>} intro="Webs by Rayyan is run by Rayyan — a designer and developer who works directly with every client, from first conversation to launch." />
+      <PageHeader eyebrow="About" title={<>An independent studio with <span className="italic text-brand-gradient">one standard.</span></>} intro="Webs by Rayyan is run by Rayyan — a designer and developer who works directly with every client, from first conversation to launch." />
       <section className="mx-auto grid max-w-[1400px] gap-12 px-6 py-16 md:grid-cols-2 md:px-10">
         <Reveal><h2 className="font-display text-4xl md:text-5xl">Why the studio exists</h2></Reveal>
         <Reveal delay={0.1} className="space-y-5 text-lg leading-relaxed text-muted-foreground">
