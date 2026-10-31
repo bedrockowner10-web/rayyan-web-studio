@@ -1,11 +1,62 @@
-import { Canvas, useFrame } from "@react-three/fiber";
+import { addAfterEffect, Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Float, Lightformer, RoundedBox, ContactShadows, Sparkles } from "@react-three/drei";
-import { useRef, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import * as THREE from "three";
 
 const S = 1 / 20;
 const P = (x: number, y: number) => new THREE.Vector2((x - 45) * S, (30 - y) * S);
 const T = 0.34; // stroke thickness
+
+/** Reveal only after this scene has completed two real render-loop frames. */
+function SceneReadiness({ onReady, onError }: { onReady: () => void; onError: () => void }) {
+  const gl = useThree((state) => state.gl);
+  const framePending = useRef(false);
+  useFrame(() => {
+    framePending.current = true;
+  });
+  useEffect(() => {
+    let active = true;
+    let frames = 0;
+    let notified = false;
+    let revealFrame: number | undefined;
+    const canvas = gl.domElement;
+    const fail = (event?: Event) => {
+      event?.preventDefault();
+      if (!active) return;
+      active = false;
+      if (revealFrame !== undefined) cancelAnimationFrame(revealFrame);
+      onError();
+    };
+    canvas.addEventListener("webglcontextlost", fail);
+    canvas.addEventListener("webglcontextcreationerror", fail);
+    const unsubscribe = addAfterEffect(() => {
+      if (!active || notified || !framePending.current) return;
+      framePending.current = false;
+      if (gl.getContext().isContextLost()) {
+        fail();
+        return;
+      }
+      frames += 1;
+      if (frames < 2) return;
+      notified = true;
+      // Let the browser present the completed frame before exposing the canvas.
+      revealFrame = requestAnimationFrame(() => {
+        if (!active) return;
+        if (gl.getContext().isContextLost()) fail();
+        else onReady();
+      });
+    });
+    return () => {
+      active = false;
+      unsubscribe();
+      if (revealFrame !== undefined) cancelAnimationFrame(revealFrame);
+      canvas.removeEventListener("webglcontextlost", fail);
+      canvas.removeEventListener("webglcontextcreationerror", fail);
+      // Canvas owns and disposes its renderer, scene and declarative resources.
+    };
+  }, [gl, onReady, onError]);
+  return null;
+}
 
 function Glass() {
   return (
@@ -71,7 +122,10 @@ function Scene({ reduce }: { reduce: boolean }) {
     <group ref={g}>
       <Float speed={1.4 * sp} rotationIntensity={0.2 * sp} floatIntensity={0.5 * sp}>
         <group scale={1.05}>
-          {W.slice(0, -1).map((p, i) => <Segment key={i} a={p} b={W[i + 1]!} />)}
+          {W.slice(0, -1).map((p, i) => {
+            const next = W[i + 1];
+            return next ? <Segment key={i} a={p} b={next} /> : null;
+          })}
           <Segment a={P(58, 6)} b={P(58, 54)} />
           <Segment a={P(58, 8)} b={P(74, 8)} />
           <Segment a={P(58, 30)} b={P(77, 30)} />
@@ -111,13 +165,12 @@ function Scene({ reduce }: { reduce: boolean }) {
   );
 }
 
-export default function Emblem3D({ reduce = false }: { reduce?: boolean }) {
+export default function Emblem3D({ reduce = false, onReady, onError }: { reduce?: boolean; onReady: () => void; onError: () => void }) {
   return (
     <Canvas
       dpr={[1, 1.6]}
       camera={{ position: [0, 0, 8.4], fov: 40 }}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-      onCreated={({ gl }) => gl.domElement.parentElement?.parentElement?.setAttribute("data-scene-ready", "")}
       style={{ touchAction: "pan-y" }}
     >
       <ambientLight intensity={0.7} />
@@ -125,6 +178,7 @@ export default function Emblem3D({ reduce = false }: { reduce?: boolean }) {
       <pointLight position={[-5, -2, 3]} intensity={30} color="#38d8ff" />
       <pointLight position={[5, -3, -2]} intensity={25} color="#8a5cff" />
       <Scene reduce={reduce} />
+      <SceneReadiness onReady={onReady} onError={onError} />
       <ContactShadows position={[0, -3.1, 0]} opacity={0.35} scale={10} blur={3} far={4} color="#2a4bd6" />
       <Environment resolution={256}>
         <Lightformer intensity={3} position={[0, 5, -6]} scale={[12, 3, 1]} color="#ffffff" />
