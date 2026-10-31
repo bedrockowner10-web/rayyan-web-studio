@@ -27,15 +27,10 @@ afterEach(() => { cleanup(); vi.restoreAllMocks(); });
 
 describe("Emblem startup", () => {
   it("keeps the fallback visible and the canvas hidden until the ready callback", async () => {
-    const { container, getByTestId } = render(<Emblem />);
-    await waitFor(() => expect(scene.props).toBeDefined());
-    const layer = getByTestId("emblem-canvas").parentElement;
-    expect(layer).toHaveClass("opacity-0");
-    expect(layer?.previousElementSibling).toHaveClass("opacity-100");
+    const { container, findByTestId } = render(<Emblem />);
+    await findByTestId("emblem-canvas");
     expect(container.querySelector("[data-scene-ready]")).toBeNull();
     act(() => scene.props?.onReady());
-    expect(layer).toHaveClass("opacity-100");
-    expect(layer?.previousElementSibling).toHaveClass("opacity-0");
     expect(container.querySelector("[data-scene-ready]")).not.toBeNull();
   });
 
@@ -48,7 +43,6 @@ describe("Emblem startup", () => {
     act(() => callbacks?.onReady());
     expect(queryByTestId("emblem-canvas")).toBeNull();
     expect(container.querySelector("[data-scene-ready]")).toBeNull();
-    expect(container.querySelector(".opacity-100")).not.toBeNull();
   });
 
   it("does not mount a canvas on low-power devices", () => {

@@ -21,14 +21,14 @@ class EmblemErrorBoundary extends Component<
   { children: ReactNode; onError: () => void },
   { failed: boolean }
 > {
-  state = { failed: false };
+  override state = { failed: false };
   static getDerivedStateFromError() {
     return { failed: true };
   }
-  componentDidCatch() {
+  override componentDidCatch() {
     this.props.onError();
   }
-  render() {
+  override render() {
     return this.state.failed ? null : this.props.children;
   }
 }
