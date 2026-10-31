@@ -97,7 +97,7 @@ export function ContactForm() {
       </label>
       <label className="block">
         <span className="eyebrow text-muted-foreground">Project type *</span>
-        <select name="type" defaultValue="" className={cn(field, "bg-background", errors["type"] && "border-destructive")} aria-invalid={!!errors["type"]}>
+        <select name="type" defaultValue="" className={cn(field, "bg-background", errors.type && "border-destructive")} aria-invalid={!!errors.type}>
           <option value="" disabled>Select…</option>
           {projectTypes.map((t) => <option key={t}>{t}</option>)}
         </select>
@@ -105,7 +105,7 @@ export function ContactForm() {
       </label>
       <label className="block">
         <span className="eyebrow text-muted-foreground">Budget ({siteConfig.currency}) *</span>
-        <select name="budget" defaultValue="" className={cn(field, "bg-background", errors["budget"] && "border-destructive")} aria-invalid={!!errors["budget"]}>
+        <select name="budget" defaultValue="" className={cn(field, "bg-background", errors.budget && "border-destructive")} aria-invalid={!!errors.budget}>
           <option value="" disabled>Select…</option>
           {siteConfig.budgets.map((b) => <option key={b} value={b}>{b === "Not sure yet" ? b : `${siteConfig.currencySymbol}${b}`}</option>)}
         </select>
