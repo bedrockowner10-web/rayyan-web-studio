@@ -35,7 +35,7 @@ export function buildMailto(d: Inquiry) {
 const field = "w-full rounded-2xl border bg-card px-4 py-3 text-base shadow-sm placeholder:text-muted-foreground/70 focus:border-primary focus:ring-4 focus:ring-primary/15 focus:outline-none";
 
 export function ContactForm() {
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<{ type?: string; budget?: string; message?: string; [key: string]: string | undefined }>({});
   const [done, setDone] = useState<{ href: string; body: string } | null>(null);
   const [copied, setCopied] = useState(false);
 
@@ -97,7 +97,7 @@ export function ContactForm() {
       </label>
       <label className="block">
         <span className="eyebrow text-muted-foreground">Project type *</span>
-        <select name="type" defaultValue="" className={cn(field, "bg-background", errors["type"] && "border-destructive")} aria-invalid={!!errors["type"]}>
+        <select name="type" defaultValue="" className={cn(field, "bg-background", errors.type && "border-destructive")} aria-invalid={!!errors.type}>
           <option value="" disabled>Select…</option>
           {projectTypes.map((t) => <option key={t}>{t}</option>)}
         </select>
@@ -105,7 +105,7 @@ export function ContactForm() {
       </label>
       <label className="block">
         <span className="eyebrow text-muted-foreground">Budget ({siteConfig.currency}) *</span>
-        <select name="budget" defaultValue="" className={cn(field, "bg-background", errors["budget"] && "border-destructive")} aria-invalid={!!errors["budget"]}>
+        <select name="budget" defaultValue="" className={cn(field, "bg-background", errors.budget && "border-destructive")} aria-invalid={!!errors.budget}>
           <option value="" disabled>Select…</option>
           {siteConfig.budgets.map((b) => <option key={b} value={b}>{b === "Not sure yet" ? b : `${siteConfig.currencySymbol}${b}`}</option>)}
         </select>
