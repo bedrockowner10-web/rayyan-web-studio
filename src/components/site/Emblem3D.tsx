@@ -108,13 +108,25 @@ function Spin({ children, speed, axis = "y" }: { children: ReactNode; speed: num
 
 function Scene({ reduce }: { reduce: boolean }) {
   const g = useRef<THREE.Group>(null);
+  // Hero scroll progress (0 at top, 1 after one viewport) drives the emblem's turn.
+  const scroll = useRef(0);
+  useEffect(() => {
+    const onScroll = () => {
+      scroll.current = Math.min(1, window.scrollY / Math.max(1, window.innerHeight));
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   useFrame((state, dt) => {
     if (!g.current) return;
     const t = state.clock.elapsedTime;
-    const ty = (reduce ? 0 : Math.sin(t * 0.4) * 0.3) + state.pointer.x * 0.45;
-    const tx = -state.pointer.y * 0.3;
+    const p = reduce ? 0 : scroll.current;
+    const ty = (reduce ? 0 : Math.sin(t * 0.4) * 0.3) + state.pointer.x * 0.45 + p * 0.85;
+    const tx = -state.pointer.y * 0.3 + p * 0.18;
     g.current.rotation.y = THREE.MathUtils.damp(g.current.rotation.y, ty, 3, dt);
     g.current.rotation.x = THREE.MathUtils.damp(g.current.rotation.x, tx, 3, dt);
+    g.current.position.y = THREE.MathUtils.damp(g.current.position.y, -p * 0.4, 3, dt);
   });
   const W = [P(4, 8), P(18, 52), P(32, 18), P(46, 52), P(58, 8)];
   const sp = reduce ? 0 : 1;
